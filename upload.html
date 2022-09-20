@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <!-- Webpage Title -->
+        <title>upload | W-Diary </title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bulma CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <!-- Font Awesome CSS -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+        <style>
+
+            .form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+            }
+
+            .header {
+                flex-wrap: wrap;
+                max-width: 100%;
+                min-width: 300px;
+
+                margin-left: 40px;
+                margin-top: 40px;
+                margin-right: 40px;
+                padding: 30px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .header > .date {
+                margin: 20px;
+
+            }
+
+            .header > .weather {
+                margin: 20px;
+            }
+
+            .header > .region {
+                margin: 20px;
+            }
+
+
+            .upload {
+                flex-wrap: wrap;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .upload > .uploader {
+                text-align: center;
+                flex-wrap: wrap;
+                background-color: transparent;
+                margin-top: 20px;
+                width: 100%;
+                max-width: 450px;
+                display: flex;
+
+
+            }
+
+
+            .img {
+                width: 100%;
+                border: 1px solid #87CEFA;
+                max-width: 400px;
+                height: 270px;
+                margin-top:10px;
+            }
+
+            .text {
+                background-color: transparent;
+                margin-top:20px;
+                width: 65%;
+                min-width: 400px;
+                overflow: auto;
+            }
+
+            .upbutton {
+                position: center;
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
+    </style>
+        <script>
+        </script>
+
+    </head>
+    <body>
+  <div class = "form">
+    <div class ="header">
+       <div class = "date">
+          <div class="select is-info">
+            <select>
+                <option>Select dropdown</option>
+                <option>With options</option>
+            </select>
+        </div>
+       </div>
+    <div class = "weather">
+      <div class="select is-info">
+            <select>
+                <option>Select dropdown</option>
+                <option>With options</option>
+            </select>
+        </div>
+      </div>
+    <div class = "region">
+       <div class="select is-info">
+            <select>
+                <option>Select dropdown</option>
+                <option>With options</option>
+            </select>
+        </div>
+    </div>
+    </div>
+        <div class="upload">
+            <div class="uploader">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Find a repository">
+                    </div>
+                 </div>
+                    <div class="control">
+                        <a class="button is-info">
+                            Search
+                        </a>
+                    </div>
+            </div>
+
+
+<div class = "img">
+    <figure class="image is-3by2">
+  <img src="https://images.unsplash.com/photo-1579280921028-21d4e5005a77?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80">
+</figure>
+</div>
+<div class = "text">
+   <textarea class="textarea is-info" placeholder="Info textarea"></textarea>
+</div>
+    <div class = "upbutton">
+        <button class="button is-info">Info</button>
+    </div>
+
+</div>
+
+</div>
+</div>
+    </body>
+</html>
