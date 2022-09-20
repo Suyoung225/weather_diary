@@ -110,7 +110,11 @@ def get_posts():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        posts = list(db.posts.find({}).sort("date", -1).limit(20))
+        region_receive = request.args.get("region_give")
+        if region_receive == "":
+            posts = list(db.posts.find({}).sort("date", -1).limit(20))
+        else:
+            posts = list(db.posts.find({"region": region_receive}).sort("date", -1).limit(20))
         for post in posts:
             post["_id"] = str(post["_id"])
         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", 'posts' : posts})

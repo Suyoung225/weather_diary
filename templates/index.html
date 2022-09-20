@@ -45,7 +45,7 @@
                     $("gu-list").empty()
                     for (let i = 0; i < rows.length; i++) {
                         let gu_name = rows[i]["MSRSTE_NM"]
-                        let html_temp = `<a class="navbar-item" style="color:#87CEFA;">${gu_name}</a>`
+                        let html_temp = `<a class="navbar-item" onclick="get_posts(${gu_name})" style="color:#87CEFA;">${gu_name}</a>`
 
                         $("#gu-list").append(html_temp)
                     }
@@ -54,10 +54,13 @@
         }
 
         function get_posts() {
+            if (region == undefined) {
+                region = ""
+            }
             $("#cards").empty()
             $.ajax({
                 type: "GET",
-                url: "/get_posts",
+                url: "/get_posts?region_give=${region}",
                 data: {},
                 success: function (response) {
                     if (response["result"] == "success") {
