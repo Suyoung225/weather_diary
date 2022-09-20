@@ -16,7 +16,7 @@ SECRET_KEY = 'SPARTA'
 
 
 client = MongoClient(config.dbaddress)
-
+db = client.dbsparta
 
 
 
@@ -112,6 +112,11 @@ def get_posts():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        gu_name_receive = request.args.get("gu_name")
+        if gu_name_receive == "":
+            posts = list(db.posts.find({}).sort("date", -1).limit(20))
+        else:
+            posts = list(db.posts.find({"region": gu_name_receive}).sort("date", -1).limit(20))
         posts = list(db.posts.find({}).sort("date", -1).limit(20))
         for post in posts:
             post["_id"] = str(post["_id"])
