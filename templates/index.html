@@ -33,6 +33,7 @@
 
         $(document).ready(function () {
             get_regionlist()
+            get_posts()
         })
 
         function get_regionlist() {
@@ -53,14 +54,14 @@
             })
         }
 
-        function get_posts() {
-            if (region == undefined) {
-                region = ""
+        function get_posts(gu_name) {
+            if (gu_name == undefined) {
+                gu_name = ""
             }
             $("#cards").empty()
             $.ajax({
                 type: "GET",
-                url: "?region_give=${region}",
+                url: "/get_posts?gu_name_give=${gu_name}",
                 data: {},
                 success: function (response) {
                     if (response["result"] == "success") {
@@ -70,30 +71,30 @@
                             let time_post = new Date(post["date"])
                             let time_before = time2str(time_post)
                             let html_temp = `<div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="/static/${post['profile_pic_real']} alt="Profile Image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-48x48">
-                            <img src="/static/${post['img']} alt="Image">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <p class="title is-5"> ${post['weather']} ${post['region']}</p>
-                        <p class="subtitle is-6">${post['id']}</p>
-                    </div>
-                </div>
+                                                <div class="card-image">
+                                                    <figure class="image is-4by3">
+                                                        <img src="/static/${post['profile_pic_real']} alt="Profile Image">
+                                                    </figure>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <figure class="image is-48x48">
+                                                                <img src="/static/${post['img']} alt="Image">
+                                                            </figure>
+                                                        </div>
+                                                        <div class="media-content">
+                                                            <p class="title is-5"> ${post['weather']} ${post['region']}</p>
+                                                            <p class="subtitle is-6">${post['id']}</p>
+                                                        </div>
+                                                    </div>
 
-                <div class="content">
-                    ${post['text']}
-                    <p style="font-size: smaller; margin-top:1em">${time_before}</p>
-                </div>
-            </div>
-        </div>`
+                                                    <div class="content">
+                                                        ${post['text']}
+                                                        <p style="font-size: smaller; margin-top:1em">${time_before}</p>
+                                                    </div>
+                                                </div>
+                                            </div>`
 
                             $("cards").append(html_temp)
                         }
