@@ -1,37 +1,90 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
 
-        <!-- Webpage Title -->
-        <title>Home | W_Dairy</title>
+    <!-- Webpage Title -->
+    <title>Home | W_Dairy</title>
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <!-- Font Awesome CSS -->
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gothic+A1:wght@400;600&family=Nanum+Gothic&family=Nanum+Pen+Script&display=swap"
+          rel="stylesheet">
 
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
-        <style>
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-        </style>
 
-        <script>
-            function sign_out(){
-                $.removeCookie('mytoken,{'/'}')
-                alert('로그아웃')
-                window.location.href="/login"
+    <script>
+        function sign_out() {
+            $.removeCookie('mytoken,{' / '}')
+            alert('로그아웃')
+            window.location.href = "/login"
+        }
+
+        $(document).ready(function () {
+            get_regionlist()
+        })
+
+        function get_regionlist() {
+        $.ajax({
+            type: "GET",
+            url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
+            data: {},
+            success: function (response) {
+                let rows = response["RealtimeCityAir"]["row"];
+                $("gu-list").empty()
+                for(let i=0; i<rows.length;i++){
+                    let gu_name = rows[i]["MSRSTE_NM"]
+                    let html_temp = `<a class="navbar-item" style="color:#87CEFA;">${gu_name}</a>`
+
+                    $("#gu-list").append(html_temp)
+                }
             }
-        </script>
+        })
+    }
+</script>
+    </script>
 
-    </head>
-    <body>
-        <button onclick="sign_out()">로그아웃</button>
-    </body>
+</head>
+<body>
+<nav class="navbar is-fixed-top is-white logo" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <strong class="is-sparta"
+                    style="font-family: 'Gamja Flower', cursive; font-size: x-large;">날씨일기</strong>
+        </a>
+    </div>
+</nav>
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-menu is-active">
+        <div class="navbar-end">
+            <a class="navbar-item" onclick="sign_out()" style="color:#87CEFA;">로그아웃</a>
+            <a class="navbar-item" href="/" style="color:#87CEFA;">마이페이지</a>
+            <a class="navbar-item" href="/" style="color:#87CEFA;">일기 쓰기</a>
+            <div class="navbar-item has-dropdown is-hoverable" >
+                <a class="navbar-link" style="color:#87CEFA;">
+                    지역 검색
+                </a>
+                <div class="navbar-dropdown" id="gu-list">
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+</body>
 </html>
