@@ -32,10 +32,7 @@
             window.location.href = "/login"
         }
 
-        function delete_post() {
-
-            let id = $('.card').attr('id')
-            console.log(id)
+        function delete_post(id) {
             $.ajax({
                 type: "POST",
                 url: "/delete_post",
@@ -49,7 +46,7 @@
 
                     }
                 }
-            });
+            }); 
         }
 
         function update_profile() {
@@ -93,6 +90,8 @@
                         let posts = response["posts"]
                         for (let i = 0; i < posts.length; i++) {
                             let post = posts[i]
+                            let id = post["_id"]
+                            console.log(id)
                             let html_temp = `<div class="card" id="${post["_id"]}">
                                                 <div class="card-image">
                                                     <figure class="image is-4by3">
@@ -118,7 +117,7 @@
                                                     </div>
                                                     <div class="delete_button">
                                                         <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
-                                                           onclick="delete_post()">삭제&nbsp&nbsp<span class="icon is-small">
+                                                           onclick="delete_post('${post["_id"]}')">삭제&nbsp&nbsp<span class="icon is-small">
                                                             <i class="fa-regular fa-trash-can"></i></span>
                                                         </a>
                                                     </div>
