@@ -1,5 +1,6 @@
 import os
 
+from bson import ObjectId
 from pymongo import MongoClient
 import jwt
 import datetime
@@ -211,8 +212,8 @@ def delete_post():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         username = payload["id"]
-        showtime_receive = request.form["showtime_give"]
-        db.posts.delete_one({'showtime': showtime_receive})
+        id_receive = request.form["id_give"]
+        db.posts.delete_one({"_id": ObjectId(id_receive)})
         return jsonify({"result": "success", 'msg': '삭제완료'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
