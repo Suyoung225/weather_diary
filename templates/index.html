@@ -1,164 +1,148 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
 
-        <!-- Webpage Title -->
-        <title>upload | W-Diary </title>
+    <!-- Webpage Title -->
+    <title>Home | W_Dairy</title>
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <!-- Font Awesome CSS -->
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gothic+A1:wght@400;600&family=Nanum+Gothic&family=Nanum+Pen+Script&display=swap"
+          rel="stylesheet">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
-        <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
-
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-
-        <style>
-
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 400;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
-            }
-
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 700;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
-            }
-
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 300;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
-            }
-
-            .lottemartdream * {
-                font-family: 'LotteMartDream', sans-serif;
-            }
-
-            .body{
-                color:#87CEFA;
-                max-width: 1400px;
-                margin:auto;
-                
-            }
-
-            .title {
-                font-weight: 800;
-                font-size: 5rem;
-                font-family: 'Gamja Flower', cursive;
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 
-            }
+    <script>
+        function sign_out() {
+            $.removeCookie('mytoken,{' / '}')
+            alert('로그아웃')
+            window.location.href = "/login"
+        }
 
-            .subtitle {
-                font-size: 2rem;
-                font-family: 'Nanum Pen Script', cursive;
+        $(document).ready(function () {
+            get_posts_index()
+            get_regionlist()
+        })
 
-            }
-            .navbar {
-                font-size : 30px;
-                color:#87CEFA;
-                font-family: 'Gamja Flower', cursive;
-                display : flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-            .navbar-link{
-                margin-left : 65px;
-                margin-right : 65px;
+        function get_regionlist() {
+            $.ajax({
+                type: "GET",
+                url: "http://openapi.seoul.go.kr:8088/6d4d776b466c656533356a4b4b5872/json/RealtimeCityAir/1/99",
+                data: {},
+                success: function (response) {
+                    let rows = response["RealtimeCityAir"]["row"];
+                    $("gu-list").empty()
+                    for (let i = 0; i < rows.length; i++) {
+                        let gu_name = rows[i]["MSRSTE_NM"]
+                        let html_temp = `<option>${gu_name}</option>`
 
-            }
+                        $("#region_option").append(html_temp)
+                    }
+                }
+            })
+        }
 
-            .cards-back {
-                width: 100%;
-                height: 490px;
+        function get_posts_index(gu_name) {
+          if(gu_name == undefined){
+                gu_name = ""
+          }
+            $("#cards").empty()
+            $.ajax({
+                type: "GET",
+                url: `/get_posts_index?gu_name_give=${gu_name}`,
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let posts = response["posts"]
+                        for (let i = 0; i < posts.length; i++) {
+                            let post = posts[i]
+                            let html_temp = `<div class="card">
+                                                <div class="card-image">
+                                                    <figure class="image is-4by3">
+                                                        <img src="/static/${post['file_path']}" alt="Image" >
+                                                    </figure>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <figure class="image is-48x48">
+                                                                <img src="/static/${post['profile_pic_real']}" alt="Profile Image">
+                                                            </figure>
+                                                        </div>
+                                                        <div class="media-content">
+                                                            <p class="title is-5"> ${post['weather']} ${post['region']}</p>
+                                                            <p class="subtitle is-6">${post['username']}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="content">
+                                                        ${post['text']}
+                                                        <p style="font-size: smaller; margin-top:1em">${post['showtime']}</p>
+                                                    </div>
+                                                </div>
+                                            </div>`
+
+                            $("#cards").append(html_temp)
+                        }
+                    }
+                }
+            })
+        }
+
+        function region_select() {
+                let gu_name = $('#region_option').val()
+
+                if (gu_name== "지역 골라보기") {
+                    alert('지역을 선택해주세요')
+                    return;
+                }
+                get_posts_index(gu_name)
+	}
+    </script>
+
+</head>
+<body>
+<nav class="navbar is-fixed-top is-white logo" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <strong class="is-sparta"
+                    style="font-family: 'Gamja Flower', cursive; font-size: xx-large;">날씨일기</strong>
+        </a>
+    </div>
+</nav>
 
 
-            }
-
-            .container {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                grid-gap: 5em;
-                padding-left: 30px;
-                padding-right:30px;
-            }
-
-            .card {
-                height: 600px;
-
-
-            }
-            .content{
-                width: 100%;
-                height :80px;
-                max-height: 80px;
-                min-height : 80px;
-                display: inline-block;
-                overflow: hidden;
-                line-height: 25px;
-                -webkit-box-orient: vertical;
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                margin-top: -10px;
-            }
-            .time{
-                background-color: white;
-                margin-top:0px;
-            }
-
-            </style>
-        <script>
-        </script>
-    </head>
-    <body class = "body">
-
-    <section class="hero is-white">
-        <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-            <h1 class="title is-sparta" style="color: #87CEFA;">날씨일기</h1>
-            <h3 class="subtitle is-sparta" style="color: #87CEFA;">지금의 날씨는?</h3>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-menu is-active">
+        <div class="navbar-end">
+            <a class="navbar-item" onclick="sign_out()" style="color:#87CEFA;">로그아웃</a>
+            <a class="navbar-item" href="/user/{{ user_info.username }}" style="color:#87CEFA;">마이페이지</a>
+            <a class="navbar-item" href="/sign_in/upload" style="color:#87CEFA;">일기 쓰기</a>
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link" style="color:#87CEFA;">
-                    지역 검색
-                </a>
-                <div class="navbar-dropdown" , style="color:#87CEFA;" , id="gu-list"/>
+                <select id="region_option">
+                    <option>지역 골라보기</option>
+                </select>
             </div>
+            <a class="navbar-item" onclick="region_select()" style="color:#87CEFA;">지역 검색</a>
         </div>
-        </div>
-    </section>
+    </div>
+    </div>
+    </div>
+</nav>
 
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu is-active">
-
-            <div class="navbar-end">
-                <a class="navbar-item" href="/" style="color:#87CEFA;">일기 쓰기</a>
-                <a class="navbar-item" href="/" style="color:#87CEFA;">마이페이지</a>
-                <a class="navbar-item" onclick="sign_out()" style="color:#87CEFA;">로그아웃</a>
-
-            </div>
-        </div>
-    </nav>
-
-
-    <div class = "cards-back">
-        <section class="section main">
+<section class="section main">
     <div class="container" id="cards">
         <div class="card">
             <div class="card-image">
@@ -177,36 +161,18 @@
                         <p class="title is-5"> ☁ 종로구</p>
                         <p class="subtitle is-6">아이디</p>
                     </div>
-                       <p class = "time" style="font-size: smaller;">
-                        <time datetime="2016-1-1">25분전</time>
-                    </p>
                 </div>
 
                 <div class="content">
-                    나가서 놀기 딱 좋은 날씨다.
-                    방구석에서 나는 뭘 하고 있는 것이지?
-                    배고프다...
-                    밥은 있나?
-                    자야되는데...
-                    글을 많이 쓰면 스크롤이 생기나?
-                    칸이 고정되어있지 않으니까 딱 정하기도 애매하네 ...
-                    폰으로 봤을때 깔끔하게 나왔으면 좋겠다
-                    자야되는데...
-                    띄어쓰기가 전혀 안되는데, 실제로 데이터를 띄울때는 예쁘게 뜨려나?
-                    이런건 안알려주던데 ㅠㅠㅠ
-                    어쩌지 ㅠㅠㅠ
-                    로그인이 안되어서 지금 연동을 해볼수가 없는데..
-                    이걸 하고 앉았네...
-                    조금만 더쓰면 스크롤이 생기는지 볼수 있을거 같다. 안생긴다 애매해서
-                    이러면 안되는데...
+                    나가서 놀기 딱 좋은 날씨
+                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
                 </div>
-
             </div>
         </div>
         <div class="card">
             <div class="card-image">
                 <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image"/>
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
                 </figure>
             </div>
             <div class="card-content">
@@ -243,9 +209,89 @@
                 </div>
             </div>
         </div>
-    </div>
-        </section>
-    </div>
-    </body>
-</html>
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-5"> ☁ 종로구</p>
+                        <p class="subtitle is-6">아이디</p>
+                    </div>
+                </div>
 
+                <div class="content">
+                    아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라아아라라라라라라라라
+                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-5"> ☁ 종로구</p>
+                        <p class="subtitle is-6">아이디</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    CSS 이 정도만 하면 안 될까요?ㅠㅠㅠㅠㅠㅠ
+                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-5"> ☁ 종로구</p>
+                        <p class="subtitle is-6">아이디</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    가나다라마바사아자차카타파하
+                    총 96자로 제한하시죠!!!
+                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-content">
+                        <p class="title is-5"> ☁ 종로구</p>
+                        <p class="subtitle is-6">아이디</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    CSS 이 정도만 하면 안 될까요?ㅠㅠㅠㅠㅠㅠ
+                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

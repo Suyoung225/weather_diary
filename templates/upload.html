@@ -1,321 +1,309 @@
 <!doctype html>
 <html lang="en">
-    <head>
+<head>
 
-        <!-- Webpage Title -->
-        <title>upload | W-Diary </title>
+    <!-- Webpage Title -->
+    <title>upload | W-Diary </title>
 
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <!-- Font Awesome CSS -->
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 
-        <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
-        <!-- JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-
-        <style>
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 400;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
-            }
-
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 700;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
-            }
-
-            @font-face {
-                font-family: 'LotteMartDream';
-                font-style: normal;
-                font-weight: 300;
-                src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
-            }
-
-            .lottemartdream * {
-                font-family: 'LotteMartDream', sans-serif;
-            }
-
-              .title {
-                font-weight: 800;
-                font-size: 5rem;
-                font-family: 'Gamja Flower', cursive;
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 
-            }
+    <style>
+        @font-face {
+            font-family: 'LotteMartDream';
+            font-style: normal;
+            font-weight: 400;
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+        }
 
-            .subtitle {
-                font-size: 2rem;
-                font-family: 'Nanum Pen Script', cursive;
+        @font-face {
+            font-family: 'LotteMartDream';
+            font-style: normal;
+            font-weight: 700;
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+        }
 
-            }
+        @font-face {
+            font-family: 'LotteMartDream';
+            font-style: normal;
+            font-weight: 300;
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+        }
 
+        .lottemartdream * {
+            font-family: 'LotteMartDream', sans-serif;
+        }
 
-            .form {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-            }
-
-            .header {
-                flex-wrap: wrap;
-                max-width: 100%;
-                min-width: 300px;
-
-                margin-left: 40px;
-                margin-top: 40px;
-                margin-right: 40px;
-                padding: 30px;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .header > .date {
-                margin: 20px;
-
-            }
-
-            .header > .weather {
-                margin: 20px;
-            }
-
-            .header > .region {
-                margin: 20px;
-            }
+        .title {
+            font-weight: 800;
+            font-size: 5rem;
+            font-family: 'Gamja Flower', cursive;
 
 
-            .upload {
-                flex-wrap: wrap;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
+        }
 
-            .upload > .uploader {
-                text-align: center;
-                flex-wrap: wrap;
-                background-color: transparent;
-                margin-top: 20px;
-                width: 100%;
-                max-width: 450px;
-                display: flex;
+        .subtitle {
+            font-size: 2rem;
+            font-family: 'Nanum Pen Script', cursive;
+
+        }
 
 
-            }
+        .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .header {
+            flex-wrap: wrap;
+            max-width: 100%;
+            min-width: 300px;
+
+            margin-left: 40px;
+            margin-top: 40px;
+            margin-right: 40px;
+            padding: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header > .date {
+            margin: 20px;
+
+        }
+
+        .header > .weather {
+            margin: 20px;
+        }
+
+        .header > .region {
+            margin: 20px;
+        }
 
 
-            .img {
-                width: 100%;
-                border: 1px solid #87CEFA;
-                max-width: 400px;
-                height: 270px;
-                margin-top: 10px;
-            }
+        .upload {
+            flex-wrap: wrap;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-            .text {
-                background-color: transparent;
-                margin-top: 20px;
-                width: 65%;
-                min-width: 400px;
-                overflow: auto;
-            }
-
-            .upbutton {
-                margin-top: 20px;
-                margin-left: 40%;
-                margin-right: 40%;
-                margin-bottom: 40px;
-            }
-        </style>
+        .upload > .uploader {
+            text-align: center;
+            flex-wrap: wrap;
+            background-color: transparent;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 450px;
+            display: flex;
 
 
+        }
 
 
+        .img {
+            width: 100%;
+            border: 1px solid #87CEFA;
+            max-width: 400px;
+            height: 270px;
+            margin-top: 10px;
+        }
 
-        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                $("#imgInp").on('change', function () {
-                    readURL(this);
-                });
+        .text {
+            background-color: transparent;
+            margin-top: 20px;
+            width: 65%;
+            min-width: 400px;
+            overflow: auto;
+        }
+
+        .upbutton {
+            margin-top: 20px;
+            margin-left: 40%;
+            margin-right: 40%;
+            margin-bottom: 40px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#imgInp").on('change', function () {
+                readURL(this);
             });
+        });
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        $('#blah').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
                 }
+
+                reader.readAsDataURL(input.files[0]);
             }
+        }
 
-            $(document).ready(function () {
+        $(document).ready(function () {
 
-                listing();
-            });
+            //listing();
 
-            function listing() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/upload',
-                    data: {},
-                    success: function (response) {
-                        let rows = response['diaries']
-                        for (let i = 0; i < rows.length; i++) {
-                            let image = rows[i]['image']
-                            let text = rows[i]['text']
+        });
 
-                            let temp_html = `<div class = "img" id = "image">
-                                          <figure class="image is-3by2">
-                                              <img src=${image}>
-                                            </figure>
-                                            </div>
-                                            <div class = "text" id = "text">
-                                               <textarea class="textarea is-info" placeholder="Info textarea">${text}</textarea>
-                                            </div>`
-                            $('#postings').append(temp_html)
-
-                        }
-                    }
-                })
-            }
 
 
             {#전체를 저장#}
 
             function posting() {
-                let text = $('#text').val()
-                let image = $('#image').val()
+                let text = $('#input-text').val()
+                let weather = $('#weather-selection').val()
+                let region = $('#region-selection').val()
+                {#let today = new Date().toISOString()#}
 
-                let file = $('#file')[0].files[0]
+                let file = $('#input-file')[0].files[0]
                 let form_data = new FormData()
 
                 form_data.append("file_give", file)
-                form_data.append("image_give", image)
+                form_data.append("weather_give", weather)
                 form_data.append("text_give", text)
+                form_data.append("region_give", region)
+                {#form_data.append("date_give", today)#}
 
-                if (image == "") {
+                if ($('#input-file')[0].files.length == 0) {
                     alert('사진을 넣어주세요')
-                    return false;
+                    return;
                 }
+
                 if (text == "") {
-                    alert('입력해 주세요')
-                    return false;
+                    alert('글을 입력해 주세요')
+                    return;
+                }
+                if (region == "지역을 선택해주세요") {
+                    alert('지역을 선택해주세요')
+                    return;
+                }
+                if (weather == "날씨를 선택해주세요") {
+                    alert('날씨를 선택해주세요')
+                    return;
                 }
 
                 $.ajax({
                     type: 'POST',
-                    url: '/upload',
+                    url: '/sign_in/upload',
                     data: form_data,
                     cache: false,
                     contentType: false,
                     processData: false,
                     success: function (response) {
                         alert(response['msg'])
-                        window.location.reload()
+                        window.location.href = "/"
                     }
                 });
             }
 
 
-        </script>
 
-    </head>
-    <body>
+    </script>
 
-    <section class="hero is-white">
-        <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-            <h1 class="title is-sparta" style="color: #87CEFA;">날씨일기</h1>
-            <h3 class="subtitle is-sparta" style="color: #87CEFA;">지금의 날씨는?</h3>
-        </div>
-    </section>
-    <div class="form">
-        <div class="header">
-            <div class="date" id="time">
-                <div class="select is-info">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
-                    </select>
-                </div>
-            </div>
-            <div class="weather" id="weather">
-                <div class="select is-info">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
-                    </select>
-                </div>
-            </div>
-            <div class="region" id="region">
-                <div class="select is-info">
-                    <select>
-                        <option>Select dropdown</option>
-                        <option>With options</option>
-                    </select>
-                </div>
+</head>
+<body>
+
+<section class="hero is-white">
+    <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
+        <h1 class="title is-sparta" style="color: #87CEFA;">날씨일기</h1>
+        <h3 class="subtitle is-sparta" style="color: #87CEFA;">지금의 날씨는?</h3>
+    </div>
+</section>
+<div class="form">
+    <div class="header">
+        <div class="weather" id="weather">
+            <div class="select is-info">
+                <select id="weather-selection">
+                    <option>날씨를 선택해주세요</option>
+                    <option>☀</option>
+                    <option>⛅</option>
+                    <option>☁</option>
+                    <option>🌧</option>
+                    <option>⛈</option>
+                    <option>❄</option>
+                    <option>☃</option>
+                </select>
             </div>
         </div>
-        <div class="upload">
-            <div class="uploader">
-                <div class="field has-addons">
-                    <div class="control">
-                        <div class="file is-info has-name">
-                            <label class="file-label" runat="server">
-                                <input class="file-input" type="file" name="resume" id="imgInp"/>
-                                <span class="file-cta">
+        <div class="region" id="region">
+            <div class="select is-info">
+                <select id="region-selection">
+                    <option>지역을 선택해주세요</option>
+                    {% for row in rows %}
+                        {% set gu_name = row["MSRSTE_NM"] %}
+                        <option>{{ gu_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="upload">
+        <div class="uploader">
+            <div class="field has-addons">
+                <div class="control">
+                    <div class="file is-info has-name">
+                        <label class="file-label" runat="server">
+                            <input class="file-input" type="file" name="resume" id="input-file" >
+                            <span class="file-cta">
                                           <span class="file-icon">
                                             <i class="fas fa-upload"></i>
                                           </span>
-                                          <span class="file-label">
+                                          <span class="file-label" id="input-file">
                                             사진올리기
                                           </span>
                                         </span>
-                                <span class="file-name">
+                            <span class="file-name">
                                     사진을 넣어주세요
                                     </span>
-                            </label>
-                        </div>
+                        </label>
                     </div>
                 </div>
             </div>
-
-            <div class="postings">
-                <div class="img" id="image">
-                    <img id="blah" src="#" alt="your image"/>
-                </div>
-                <div class="text" id="text">
-                    <textarea class="textarea is-info" placeholder="Info textarea"></textarea>
-                </div>
-                <div class="upbutton">
-                    <button class="button is-info" onclick="posting()">업로드</button>
-                </div>
-            </div>
-
         </div>
+
+        <div class="postings">
+            <div class="img" id="image">
+                <img id="blah" src="#" alt="your image"/>
+            </div>
+            <div class="text" id="text">
+                <textarea class="textarea is-info" placeholder="Info textarea" id="input-text"></textarea>
+            </div>
+            <div class="upbutton">
+                <button class="button is-info" onclick="posting()">업로드</button>
+            </div>
+        </div>
+
     </div>
-    </body>
+</div>
+</body>
 </html>
