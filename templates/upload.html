@@ -7,7 +7,15 @@
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="날씨일기 - 오늘의 날씨는?"/>
+    <meta property="og:description" content="실시간으로 지역의 날씨를 공유하는 플랫폼"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimg.jpg') }}"/>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -146,6 +154,7 @@
             margin-right: 40%;
             margin-bottom: 40px;
         }
+
     </style>
 
 
@@ -176,56 +185,54 @@
         });
 
 
+        {#전체를 저장#}
 
-            {#전체를 저장#}
+        function posting() {
+            let text = $('#input-text').val()
+            let weather = $('#weather-selection').val()
+            let region = $('#region-selection').val()
+            {#let today = new Date().toISOString()#}
 
-            function posting() {
-                let text = $('#input-text').val()
-                let weather = $('#weather-selection').val()
-                let region = $('#region-selection').val()
-                {#let today = new Date().toISOString()#}
+            let file = $('#input-file')[0].files[0]
+            let form_data = new FormData()
 
-                let file = $('#input-file')[0].files[0]
-                let form_data = new FormData()
+            form_data.append("file_give", file)
+            form_data.append("weather_give", weather)
+            form_data.append("text_give", text)
+            form_data.append("region_give", region)
+            {#form_data.append("date_give", today)#}
 
-                form_data.append("file_give", file)
-                form_data.append("weather_give", weather)
-                form_data.append("text_give", text)
-                form_data.append("region_give", region)
-                {#form_data.append("date_give", today)#}
-
-                if ($('#input-file')[0].files.length == 0) {
-                    alert('사진을 넣어주세요')
-                    return;
-                }
-
-                if (text == "") {
-                    alert('글을 입력해 주세요')
-                    return;
-                }
-                if (region == "지역을 선택해주세요") {
-                    alert('지역을 선택해주세요')
-                    return;
-                }
-                if (weather == "날씨를 선택해주세요") {
-                    alert('날씨를 선택해주세요')
-                    return;
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/sign_in/upload',
-                    data: form_data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        alert(response['msg'])
-                        window.location.href = "/"
-                    }
-                });
+            if ($('#input-file')[0].files.length == 0) {
+                alert('사진을 넣어주세요')
+                return;
             }
 
+            if (text == "") {
+                alert('글을 입력해 주세요')
+                return;
+            }
+            if (region == "지역을 선택해주세요") {
+                alert('지역을 선택해주세요')
+                return;
+            }
+            if (weather == "날씨를 선택해주세요") {
+                alert('날씨를 선택해주세요')
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/sign_in/upload',
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.href = "/"
+                }
+            });
+        }
 
 
     </script>
@@ -235,7 +242,8 @@
 
 <section class="hero is-white">
     <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
-        <h1 class="title is-sparta" style="color: #87CEFA;">날씨일기</h1>
+        <h1 class="title is-sparta" style="color: #87CEFA;"><a href="/" style="font-family: 'Gamja Flower', cursive;">날씨일기</a>
+        </h1>
         <h3 class="subtitle is-sparta" style="color: #87CEFA;">지금의 날씨는?</h3>
     </div>
 </section>
@@ -259,9 +267,12 @@
             <div class="select is-info">
                 <select id="region-selection">
                     <option>지역을 선택해주세요</option>
-                    {% for row in rows %}
-                        {% set gu_name = row["MSRSTE_NM"] %}
-                        <option>{{ gu_name }}</option>
+                    {#                    {% for row in rows %}#}
+                    {#                        {% set gu_name = row["MSRSTE_NM"] %}#}
+                    {#                        <option>{{ gu_name }}</option>#}
+                    {#                    {% endfor %}#}
+                    {% for r in region %}
+                        <option>{{ r }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -271,39 +282,47 @@
         <div class="uploader">
             <div class="field has-addons">
                 <div class="control">
-                    <div class="file is-info has-name">
-                        <label class="file-label" runat="server">
-                            <input class="file-input" type="file" name="resume" id="input-file" >
+                    <div id="file-js-example" class="file has-name">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="resume" id="input-file" ccept="image/*"/>
                             <span class="file-cta">
-                                          <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                          </span>
-                                          <span class="file-label" id="input-file">
-                                            사진올리기
-                                          </span>
-                                        </span>
+                              <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                              </span>
+                              <span class="file-label" id="input-file">
+                                사진올리기
+                              </span>
+                            </span>
                             <span class="file-name">
-                                    사진을 넣어주세요
-                                    </span>
+                              No file uploaded
+                            </span>
                         </label>
                     </div>
+                    <script>
+                        const fileInput = document.querySelector('#file-js-example input[type=file]');
+                        fileInput.onchange = () => {
+                            if (fileInput.files.length > 0) {
+                                const fileName = document.querySelector('#file-js-example .file-name');
+                                fileName.textContent = fileInput.files[0].name;
+                            }
+                        }
+                    </script>
                 </div>
             </div>
         </div>
 
-        <div class="postings">
-            <div class="img" id="image">
-                <img id="blah" src="#" alt="your image"/>
-            </div>
-            <div class="text" id="text">
-                <textarea class="textarea is-info" placeholder="Info textarea" id="input-text"></textarea>
-            </div>
-            <div class="upbutton">
-                <button class="button is-info" onclick="posting()">업로드</button>
-            </div>
-        </div>
-
     </div>
+
+    <div class="postings">
+        <div class="text" id="text">
+            <textarea class="textarea is-info" placeholder="Info textarea" id="input-text"></textarea>
+        </div>
+        <div class="upbutton">
+            <button class="button is-info" onclick="posting()">업로드</button>
+        </div>
+    </div>
+
+</div>
 </div>
 </body>
 </html>
