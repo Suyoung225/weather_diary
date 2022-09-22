@@ -8,6 +8,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:title" content="날씨일기 - 오늘의 날씨는?"/>
+    <meta property="og:description" content="실시간으로 지역의 날씨를 공유하는 플랫폼"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimg.jpg') }}"/>
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
 
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -26,14 +34,14 @@
 
     <script>
         function sign_out() {
-            $.removeCookie('mytoken,{' / '}')
+            $.cookie("mytoken", null, { path: '/'});
             alert('로그아웃')
             window.location.href = "/login"
         }
 
         $(document).ready(function () {
             get_posts_index()
-            get_regionlist()
+            //get_regionlist()
         })
 
         function get_regionlist() {
@@ -133,9 +141,13 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <select id="region_option">
                     <option>지역 골라보기</option>
+                    {% for r in region %}
+                        <option>{{ r }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <a class="navbar-item" onclick="region_select()" style="color:#87CEFA;">지역 검색</a>
+
         </div>
     </div>
     </div>
@@ -169,128 +181,6 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-                <div class="content">
-                    나가서 놀기 딱 좋은 날씨 우아아아ㅏ아아아아아아아아아ㅏ아아아아
-                    집갈래래래래래ㅐ래랠래래래ㅐ래래래래래ㅐ래래래래래래래ㅐ래래ㅐ래
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    CSS 이 정도만 하면 안 될까요?ㅠㅠㅠㅠㅠㅠ
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라라라라아아라라라라라아아라라라라라라라라
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    CSS 이 정도만 하면 안 될까요?ㅠㅠㅠㅠㅠㅠ
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    가나다라마바사아자차카타파하
-                    총 96자로 제한하시죠!!!
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
-            </div>
-            <div class="card-content">
-                <div class="media">
-                    <div class="media-content">
-                        <p class="title is-5"> ☁ 종로구</p>
-                        <p class="subtitle is-6">아이디</p>
-                    </div>
-                </div>
-
-                <div class="content">
-                    CSS 이 정도만 하면 안 될까요?ㅠㅠㅠㅠㅠㅠ
-                    <p style="font-size: smaller; margin-top:1em">몇 분 전</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
 </body>
