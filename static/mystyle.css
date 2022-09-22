@@ -91,9 +91,15 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .content {
-    height : 70px;
+    background-color:red;
+    height : 90px;
     max-width : 100%;
     margin-top:-10px;
     overflow : auto;
+    display :flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding :10px;
+
         }
 
